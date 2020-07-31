@@ -8,5 +8,6 @@ router.post("/", ReportController.addReport);
 router.get("/", ReportController.getAllReports);
 router.put("/", ReportController.updateReport);
 router.delete("/", ReportController.deleteReport);
+router.post("/cities", ReportController.getNumberOfReportsOfCity);
 
 module.exports = router;

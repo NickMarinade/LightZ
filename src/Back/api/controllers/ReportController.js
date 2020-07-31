@@ -1,20 +1,25 @@
 const Report = require("../models/Report");
+const { report } = require("../routes/auth");
 
 const addReport = async (req, res, next) => {
+  const bearerHeader = req.headers["authorization"];
+  console.log(bearerHeader);
   try {
     const date_time = new Date();
-    const formattedDate = `${date_time.toDateString()} ${date_time.toLocaleTimeString()}`;
-    console.log(formattedDate);
 
+    const formattedDate = `${date_time.toDateString()} ${date_time.toLocaleTimeString()}`;
+    const stringDate = formattedDate.toString();
+
+    console.log(formattedDate);
     let newReport = new Report({
       username: req.body.username,
-      state: req.body.state,
-      city: req.body.city,
+      state: req.body.state.toLowerCase().trim(),
+      city: req.body.city.toLowerCase().trim(),
       have_electricity: req.body.have_electricity,
       date: "",
     });
 
-    newReport.date = formattedDate;
+    newReport.date = stringDate;
 
     await newReport.save();
     res.json({
@@ -95,4 +100,50 @@ const getAllReports = async (req, res, next) => {
     });
   }
 };
-module.exports = { addReport, getAllReports, updateReport, deleteReport };
+
+const getNumberOfReportsOfCity = async (req, res, next) => {
+  try {
+    const city = req.body.city.toLowerCase().trim();
+    const state = req.body.state.toLowerCase().trim();
+
+    const result = [];
+    const reports = await Report.find();
+
+    reports.forEach((report) => {
+      if (report.state === state && report.city === city) {
+        result.push(report.city);
+      }
+
+      // const state = report.state.toLowerCase().trim();
+      // const city = report.city.toLowerCase().trim();
+      // cityAndState.push({
+      //   state: state,
+      //   city: city,
+      // });
+    });
+
+    res.json({
+      number_of_reports: result.length,
+    });
+
+    // let mystate = cityAndState.filter((element) => element.state === state);
+    // let ciudades = [];
+
+    // mystate.forEach((report) => {
+    //   const city = report.city;
+    //   ciudad.push(city);
+    // });
+
+    // console.log(ciudades);
+
+    // let cities = [];
+  } catch (error) {}
+};
+
+module.exports = {
+  addReport,
+  getAllReports,
+  updateReport,
+  deleteReport,
+  getNumberOfReportsOfCity,
+};
