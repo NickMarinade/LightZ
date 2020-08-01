@@ -151,7 +151,8 @@ const forgotPassword = (req, res) => {
 };
 
 const resetPassword = (req, res) => {
-  const { resetLink, newPassword } = req.body;
+  const resetLink = req.params.token;
+  const { newPassword } = req.body;
 
   bcrypt.hash(newPassword, 10, async function (err, hashedPass) {
     if (err) {
