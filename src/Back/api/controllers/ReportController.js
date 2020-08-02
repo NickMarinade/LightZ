@@ -92,8 +92,21 @@ const deleteReport = async (req, res, next) => {
 
 const getAllReports = async (req, res, next) => {
   try {
-    const reports = await Report.find().sort({ createdAt: -1 }).limit(4);
-    res.send(reports);
+    const reports = await Report.find().sort({ createdAt: -1 }).limit(50);
+    const usernames = [];
+    const reportsFiltered = [];
+
+    reports.forEach((report) => {
+      const username = report.username;
+      if (usernames.includes(username)) {
+        return;
+      } else {
+        usernames.push(username);
+        reportsFiltered.push(report);
+      }
+    });
+
+    res.send(reportsFiltered);
   } catch (error) {
     res.json({
       message: error.message,
