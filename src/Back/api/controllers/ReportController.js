@@ -92,7 +92,7 @@ const deleteReport = async (req, res, next) => {
 
 const getAllReports = async (req, res, next) => {
   try {
-    const reports = await Report.find();
+    const reports = await Report.find().sort({ createdAt: -1 }).limit(4);
     res.send(reports);
   } catch (error) {
     res.json({
