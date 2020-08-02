@@ -2,8 +2,7 @@ const Report = require("../models/Report");
 const { report } = require("../routes/auth");
 
 const addReport = async (req, res, next) => {
-  const bearerHeader = req.headers["authorization"];
-  console.log(bearerHeader);
+  const username = req.params.username.toLowerCase().trim();
   try {
     const date_time = new Date();
 
@@ -12,7 +11,7 @@ const addReport = async (req, res, next) => {
 
     console.log(formattedDate);
     let newReport = new Report({
-      username: req.body.username,
+      username,
       state: req.body.state.toLowerCase().trim(),
       city: req.body.city.toLowerCase().trim(),
       have_electricity: req.body.have_electricity,

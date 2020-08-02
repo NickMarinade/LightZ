@@ -9,7 +9,9 @@ const mg = mailgun({ apiKey: process.env.MAILGUN_APIKEY, domain: DOMAIN });
 // const { use } = require("../routes/auth");
 
 const register = async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { password } = req.body;
+  const username = req.body.username.toLowerCase();
+  const email = req.body.email.toLowerCase();
   try {
     bcrypt.hash(password, 10, async function (err, hashedPass) {
       if (err) {
@@ -19,13 +21,13 @@ const register = async (req, res, next) => {
       }
 
       let user = new User({
-        name,
+        username,
         email,
         password: hashedPass,
       });
 
       const token = jwt.sign(
-        { name, email, password },
+        { username, email, password },
         process.env.JWT_ACC_ACTIVATE,
         { expiresIn: "20m" }
       );
@@ -67,7 +69,7 @@ const login = async (req, res, next) => {
   const password = req.body.password;
 
   const user = await User.findOne({
-    $or: [{ email: email }, { name: email }],
+    $or: [{ email: email }, { username: email }],
   });
   if (user) {
     bcrypt.compare(password, user.password, function (error, result) {
@@ -78,7 +80,7 @@ const login = async (req, res, next) => {
       }
 
       if (result) {
-        let token = jwt.sign({ name: user.name }, "A785$%&&/_tu%", {
+        let token = jwt.sign({ username: user.username }, "A785$%&&/_tu%", {
           expiresIn: "1h",
         });
         res.json({
@@ -105,7 +107,7 @@ const login = async (req, res, next) => {
 //       res.status(400).json({ error: "Incorrect or expired link" });
 //     }
 
-//     const { name, email, password } = decodedToken;
+//     const { username, email, password } = decodedToken;
 //   });
 // };
 
