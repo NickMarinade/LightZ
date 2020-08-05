@@ -3,7 +3,7 @@ import {useForm} from 'react-hook-form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useHistory } from "react-router-dom";
 import Axios from "axios";
-import ErrorNotice from "../components/misc/ErrorNotice";
+import ErrorNotice from "../misc/ErrorNotice";
 import {Button, Modal} from 'react-bootstrap';
 
 

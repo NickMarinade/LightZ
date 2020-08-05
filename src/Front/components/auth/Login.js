@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 import Axios from "axios";
 import ErrorNotice from "../misc/ErrorNotice";
+import {Button} from 'react-bootstrap'
 
 export default function Login() {
   const [email, setEmail] = useState();
@@ -11,6 +12,8 @@ export default function Login() {
 
   const { setUserData } = useContext(UserContext);
   const history = useHistory();
+
+  
 
   const submit = async (e) => {
     e.preventDefault();
@@ -33,9 +36,7 @@ export default function Login() {
   return (
     <div className="page">
       <h2>Log in</h2>
-      {error && (
-        <ErrorNotice message={error} clearError={() => setError(undefined)} />
-      )}
+      {error && (<ErrorNotice message={error} clearError={() => setError(undefined)} />)}
       <form className="form" onSubmit={submit}>
         <label htmlFor="login-email">Email</label>
         <input
@@ -51,8 +52,12 @@ export default function Login() {
           type="password"
           onChange={(e) => setPassword(e.target.value)}
         />
-
-        <input type="submit" value="Log in" />
+        
+        <Button className="log btn btn-primary" type="submit" value="Log in">Log in</Button> 
+        <Link to="/" className="btn mr-3 btn-link">Cancel</Link>
+        
+        <Link to="/forgot-password" className="btn ml-5 btn-link">Forgot password?</Link>
+        
       </form>
     </div>
   );

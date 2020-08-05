@@ -12,6 +12,8 @@ import "./style.css";
 import MyPage from "./Front/components/pages/MyPage";
 import About from "./Front/components/pages/About";
 import Tips from "./Front/components/pages/Tips";
+import ForgotPassword from './Front/components/password/ForgotPassword'
+import NewPassword from './Front/components/password/NewPassword'
 
 export default function App() {
   const [userData, setUserData] = useState({
@@ -58,6 +60,8 @@ export default function App() {
               <Route path="/my-page" component={MyPage} />
               <Route path="/about" component={About} />
               <Route path="/tips" component={Tips} />
+              <Route path="/forgot-password" component={ForgotPassword}/>
+              <Route path="/reset-password/:token"  component={NewPassword}/>
             </Switch>
           <Navbar id="responsive-navbar-nav" className="justify-content-center text-center fixed-bottom"  color="dark" expand="lg" bg="dark" variant="dark">
         {/* <nav className="text-muted">Non profit app </nav> */}

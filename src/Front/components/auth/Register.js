@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 import Axios from "axios";
 import ErrorNotice from "../misc/ErrorNotice";
+import {Button} from 'react-bootstrap'
 
 export default function Register() {
   const [userName, setUserName] = useState();
@@ -70,7 +71,8 @@ export default function Register() {
           onChange={(e) => setPasswordCheck(e.target.value)}
         />
 
-        <input type="submit" value="Register" />
+        <Button className="log btn btn-primary" type="submit" value="Register">Register</Button> 
+        <Link to="/" className="btn btn-link">Cancel</Link>
       </form>
     </div>
   );

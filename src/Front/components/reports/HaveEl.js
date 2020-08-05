@@ -9,7 +9,6 @@ import { Table } from "react-bootstrap";
 
 
 export default function HaveElectricity () {  
-   //const [loading, setLoading] = useState(true);
    const [reports, setReports] = useState([]);
    const [error, setError] = useState();
   
