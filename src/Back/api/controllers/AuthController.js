@@ -144,7 +144,8 @@ const forgotPassword = (req, res) => {
           }
 
           return res.json({
-            message: "email has been sendt, please reset your password",
+            userEmail: email,
+            resetPasswordToken: token,
           });
         });
       }
