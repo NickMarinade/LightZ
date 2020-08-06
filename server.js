@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 
 const AuthRoute = require("./src/Back/api/routes/auth");
 const ReportRoute = require("./src/Back/api/routes/report");
+const ContactRoute = require("./src/Back/api/routes/contact");
 
 mongoose.connect("mongodb://localhost:27017/testdb", {
   useNewUrlParser: true,
@@ -31,5 +32,6 @@ app.listen(PORT, () => {
   console.log(`Server is working on port ${PORT}`);
 });
 
+app.use("/api/contact", ContactRoute);
 app.use("/api", AuthRoute);
 app.use("/api/reports", ReportRoute);
