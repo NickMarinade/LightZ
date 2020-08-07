@@ -12,6 +12,8 @@ export default function AuthOptions() {
 
   const register = () => history.push("/register");
   const login = () => history.push("/login");
+  const mypage = () => history.push("/my-page");
+
   const logout = () => {
     setUserData({
       token: undefined,
@@ -23,7 +25,10 @@ export default function AuthOptions() {
   return (
     <nav className="auth-options">
       {userData.user ? (
-        <Nav.Link onClick={logout}>Log out</Nav.Link>
+       <Nav className="mr-auto">
+        <Nav.Link onClick={mypage}>My page</Nav.Link> 
+        <Nav.Link onClick={logout}>Log out</Nav.Link> 
+        </Nav>
       ) : (
         <Nav className="mr-auto">
           <Nav.Link onClick={register}>Register</Nav.Link>

@@ -21,6 +21,8 @@ export default function Header() {
     <Nav.Link><LinkContainer to="/"><NavItem>Home</NavItem></LinkContainer></Nav.Link>
     <Nav.Link><LinkContainer to="/about"><NavItem >About</NavItem></LinkContainer></Nav.Link>
     <Nav.Link><LinkContainer to="/tips"><NavItem>Tips</NavItem></LinkContainer></Nav.Link>
+    <Nav.Link><LinkContainer to="/contact"><NavItem>Contact</NavItem></LinkContainer></Nav.Link>
+
   <Navbar expanded className="mr-4">
      </Navbar>
    </Nav>

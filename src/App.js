@@ -10,8 +10,12 @@ import UserContext from "./Front/context/UserContext";
 import GitHubIcon from '@material-ui/icons/GitHub';
 import "./style.css";
 import MyPage from "./Front/components/pages/MyPage";
+import Contact from "./Front/components/layout/Contact";
 import About from "./Front/components/pages/About";
 import Tips from "./Front/components/pages/Tips";
+import ForgotPassword from "./Front/components/password/ForgotPassword";
+import NewPassword from "./Front/components/password/NewPassword";
+import Message from './Front/components/messages/EmailSent'
 
 export default function App() {
   const [userData, setUserData] = useState({
@@ -27,17 +31,14 @@ export default function App() {
         token = "";
       }
       const tokenRes = await Axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}api/tokenIsValid`,
+        "http://localhost:8080/api/tokenIsValid",
         null,
         { headers: { "x-auth-token": token } }
       );
       if (tokenRes.data) {
-        const userRes = await Axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}api/`,
-          {
-            headers: { "x-auth-token": token },
-          }
-        );
+        const userRes = await Axios.get("http://localhost:8080/api/", {
+          headers: { "x-auth-token": token },
+        });
         setUserData({
           token,
           user: userRes.data,
@@ -61,10 +62,14 @@ export default function App() {
               <Route path="/my-page" component={MyPage} />
               <Route path="/about" component={About} />
               <Route path="/tips" component={Tips} />
+              <Route path="/message" component={Message} />
+              <Route path="/contact" component={Contact} />
+              <Route path="/forgot-password" component={ForgotPassword}/>
+              <Route path="/reset-password/:token"  component={NewPassword}/>
             </Switch>
-          <Navbar id="responsive-navbar-nav" className="justify-content-center text-center fixed-bottom"  color="dark" expand="lg" bg="dark" variant="dark">
+          <Navbar id="responsive-navbar-nav" className="justify-content-center text-center fixed-bottom text-white"  color="dark" expand="lg" bg="dark" variant="dark">
         {/* <nav className="text-muted">Non profit app </nav> */}
-        <Nav.Link className="text-white" href="https://github.com/KLisabeth/-Do-you-have-electricity-"><GitHubIcon/>  GitHub</Nav.Link>
+        <Nav.Link className="text-white" href="https://github.com/NickMarinade/lightz"><GitHubIcon/>  GitHub</Nav.Link>
           @Copyright by LightZ
           </Navbar>
         </UserContext.Provider>

@@ -3,7 +3,7 @@ import {useForm} from 'react-hook-form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useHistory } from "react-router-dom";
 import Axios from "axios";
-import ErrorNotice from "../components/misc/ErrorNotice";
+import ErrorNotice from "../misc/ErrorNotice";
 import {Button, Modal} from 'react-bootstrap';
 
 
@@ -34,7 +34,7 @@ export default function Report() {
     try {
       const report = {answer, city, state};
       const reportRes = await Axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}api/report`,
+        "http://localhost:8080/api/report",
         report
       );
      
@@ -99,17 +99,15 @@ export default function Report() {
       </select>
       <br/>
       <hr/>
-      <button className="btn btn-secondary" onClick={handleClose}>Cansel</button>
-      <button className="btn btn-primary" type="submit" onClick={handleClose} onSubmit={submit}>Report</button>
+      <button className="btn btn-danger" onClick={handleClose}>Cancel</button>
+      <button className="btn btn-primary" type="submit" onSubmit={submit}>Report</button>
      
       </form>  
       
       
       </Modal.Body>
       <Modal.Footer className="justify-content-center">
-      {error && (
-        <ErrorNotice message={error} clearError={() => setError(undefined)} />
-      )}
+      {error && (<ErrorNotice message={error} clearError={() => setError(undefined)} />)}
       </Modal.Footer>
      
      

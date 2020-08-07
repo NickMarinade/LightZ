@@ -1,8 +1,10 @@
 import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
+import {Button} from 'react-bootstrap'
 import UserContext from "../../context/UserContext";
 import Axios from "axios";
 import ErrorNotice from "../misc/ErrorNotice";
+
 
 export default function Register() {
   const [userName, setUserName] = useState();
@@ -19,17 +21,11 @@ export default function Register() {
 
     try {
       const newUser = {userName, email, password, passwordCheck};
-      await Axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}api/register`,
-        newUser
-      );
-      const loginRes = await Axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}api/login`,
-        {
-          email,
-          password,
-        }
-      );
+      await Axios.post("http://localhost:8080/api/register", newUser);
+      const loginRes = await Axios.post("http://localhost:8080/api/login", {
+        email,
+        password,
+      });
       setUserData({
         token: loginRes.data.token,
         user: loginRes.data.user,
@@ -44,8 +40,7 @@ export default function Register() {
   return (
     <div className="page">
       <h2>Register</h2>
-      {error && (
-        <ErrorNotice message={error} clearError={() => setError(undefined)} />
+      {error && (<ErrorNotice message={error} clearError={() => setError(undefined)} />
       )}
       <form className="form" onSubmit={submit}>
         <label htmlFor="register-user-name">User name</label>
@@ -72,11 +67,12 @@ export default function Register() {
         <input
           type="password"
           placeholder="Verify password"
-    
+          autoComplete="false"
           onChange={(e) => setPasswordCheck(e.target.value)}
         />
 
-        <input type="submit" value="Register" />
+        <Button className="log btn btn-primary" type="submit" value="Register">Register</Button> 
+        <Link to="/" className="btn btn-link">Cancel</Link>
       </form>
     </div>
   );

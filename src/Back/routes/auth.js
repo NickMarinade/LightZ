@@ -10,8 +10,10 @@ router.post("/login", AuthController.login1);
 router.post("/tokenIsValid", AuthController.tokenIsValid)
 router.get("/my-page", auth, AuthController.getUser)
 router.post("/report", AuthController.report1)
-//router.get("/reports", AuthController.getAllReports);
+router.post("/message", AuthController.getMessage);
 router.get("/yes", AuthController.getReportYes);
 router.get("/no", AuthController.getReportNo);
+router.put("/forgot-password", AuthController.forgotPassword);
+router.put("/reset-password/:token", AuthController.resetPassword);
 
 module.exports = router;

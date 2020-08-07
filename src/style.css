@@ -21,7 +21,8 @@ input[type="submit"] {
 h1,
 h2,
 h3,
-h4
+h4,
+h6
 {
   margin-top: 1em;
   margin-bottom: 1em;
@@ -62,18 +63,20 @@ body {
 
 
 /* form */
-
+.msg-area,
 .form label,
 .form input {
   display: block;
   margin-left: 10%;
 }
+.msg-area,
 .form input {
   margin-bottom: 1rem;
 }
 .form label {
   margin-bottom: 0.2rem;
 }
+.msg-area,
 .form input[type="text"],
 .form input[type="email"],
 .form input[type="password"] {
@@ -96,8 +99,24 @@ body {
   background-color: #c8ecb7;
   font-size: 1.1rem;
 }
+.log, .fp {
+  margin-left: 10%;
+  font-size: 1.1rem;
+  margin-bottom: 2em;
+}
 
-
+.btn-link{
+  font-size: 1.1rem;
+  margin-bottom: 2em;
+}
+.msg-btn{
+  font-size: 1.1rem;
+  margin-bottom: 2em;
+  width: 80%;
+  padding: 0.3rem;
+  border: 1px solid #c2c2c2;
+  border-radius: 8px;
+}
 
 /* error notice */
 
@@ -118,7 +137,14 @@ body {
   background-color: #df4343;
   color: #ffffff;
 }
-
+.contactL{
+  max-width: 80px; 
+  max-height: 28px;
+}
+.contactZ{
+  max-width: 4rem; 
+  max-height: 4rem;
+}
 
 /* media queries */
 
