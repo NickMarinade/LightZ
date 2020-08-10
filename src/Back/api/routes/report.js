@@ -1,13 +1,18 @@
 const express = require("express");
 const router = express.Router();
 
-const ReportController = require("../controllers/ReportController");
+const {
+  addReport,
+  getAllReports,
+  updateReport,
+  deleteReport,
+  getReports24hours,
+} = require("../controllers/ReportController");
 // const AuthController = require("../controllers/AuthController");
 
-router.post("/:username", ReportController.addReport);
-router.get("/", ReportController.getAllReports);
-router.put("/", ReportController.updateReport);
-router.delete("/", ReportController.deleteReport);
-router.post("/cities", ReportController.getNumberOfReportsOfCity);
-
+router.post("/:email", addReport);
+router.get("/", getAllReports);
+router.put("/", updateReport);
+router.delete("/", deleteReport);
+router.get("/24", getReports24hours);
 module.exports = router;

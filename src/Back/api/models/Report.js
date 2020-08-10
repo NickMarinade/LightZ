@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const ReportSchema = new Schema(
   {
-    username: {
+    email: {
       type: String,
       required: true,
     },

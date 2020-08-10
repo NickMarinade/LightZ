@@ -1,8 +1,8 @@
 const Report = require("../models/Report");
-const { report } = require("../routes/auth");
 
 const addReport = async (req, res, next) => {
-  const username = req.params.username.toLowerCase().trim();
+  const email = req.params.email.toLowerCase().trim();
+
   try {
     const date_time = new Date();
 
@@ -11,7 +11,7 @@ const addReport = async (req, res, next) => {
 
     console.log(formattedDate);
     let newReport = new Report({
-      username,
+      email,
       state: req.body.state.toLowerCase().trim(),
       city: req.body.city.toLowerCase().trim(),
       have_electricity: req.body.have_electricity,
@@ -37,11 +37,10 @@ const updateReport = async (req, res, next) => {
 
     const date_time = new Date();
     const formattedDate = `${date_time.toDateString()} ${date_time.toLocaleTimeString()}`;
-    console.log(formattedDate);
 
     let updateData = {
       _id: reportId,
-      username: req.body.username,
+      email: req.body.email,
       city: req.body.city,
       state: req.body.state,
       have_electricity: req.body.have_electricity,
@@ -69,8 +68,8 @@ const deleteReport = async (req, res, next) => {
       return;
     }
 
-    //Check if the request username is the same as the username in the report stored in the database.
-    if (req.body.username !== report.username) {
+    //Check if the request email is the same as the email in the report stored in the database.
+    if (req.body.email !== report.email) {
       res.status(400).json({
         message: "You can only delete your own reports",
       });
@@ -92,18 +91,7 @@ const deleteReport = async (req, res, next) => {
 const getAllReports = async (req, res, next) => {
   try {
     const reports = await Report.find().sort({ createdAt: -1 }).limit(50);
-    const usernames = [];
-    const reportsFiltered = [];
-
-    reports.forEach((report) => {
-      const username = report.username;
-      if (usernames.includes(username)) {
-        return;
-      } else {
-        usernames.push(username);
-        reportsFiltered.push(report);
-      }
-    });
+    const reportsFiltered = filterReports(reports);
 
     res.send(reportsFiltered);
   } catch (error) {
@@ -113,49 +101,45 @@ const getAllReports = async (req, res, next) => {
   }
 };
 
-const getNumberOfReportsOfCity = async (req, res, next) => {
+const getReports24hours = async (req, res) => {
   try {
-    const city = req.body.city.toLowerCase().trim();
-    const state = req.body.state.toLowerCase().trim();
+    const reports = await Report.find({
+      createdAt: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000) },
+    })
+      .sort({ createdAt: -1 })
+      .limit(50);
 
-    const result = [];
-    const reports = await Report.find();
+    const filteredReports = filterReports(reports);
 
-    reports.forEach((report) => {
-      if (report.state === state && report.city === city) {
-        result.push(report.city);
-      }
-
-      // const state = report.state.toLowerCase().trim();
-      // const city = report.city.toLowerCase().trim();
-      // cityAndState.push({
-      //   state: state,
-      //   city: city,
-      // });
-    });
-
+    res.json(filteredReports);
+  } catch (error) {
     res.json({
-      number_of_reports: result.length,
+      message: error.message,
     });
-
-    // let mystate = cityAndState.filter((element) => element.state === state);
-    // let ciudades = [];
-
-    // mystate.forEach((report) => {
-    //   const city = report.city;
-    //   ciudad.push(city);
-    // });
-
-    // console.log(ciudades);
-
-    // let cities = [];
-  } catch (error) {}
+  }
 };
+
+function filterReports(arrReports) {
+  const emails = [];
+  const reportsFiltered = [];
+
+  arrReports.forEach((report) => {
+    const email = report.email;
+    if (emails.includes(email)) {
+      return;
+    } else {
+      emails.push(email);
+      reportsFiltered.push(report);
+    }
+  });
+
+  return reportsFiltered;
+}
 
 module.exports = {
   addReport,
   getAllReports,
   updateReport,
   deleteReport,
-  getNumberOfReportsOfCity,
+  getReports24hours,
 };
