@@ -24,6 +24,10 @@ const ReportSchema = new Schema(
       type: String,
       required: true,
     },
+    userIpAddress: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

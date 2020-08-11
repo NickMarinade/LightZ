@@ -1,10 +1,12 @@
 const Report = require("../models/Report");
+const ip = require("ip");
 
 const addReport = async (req, res, next) => {
   const email = req.params.email.toLowerCase().trim();
 
   try {
     const date_time = new Date();
+    const userIp = ip.address();
 
     const formattedDate = `${date_time.toDateString()} ${date_time.toLocaleTimeString()}`;
     const stringDate = formattedDate.toString();
@@ -15,10 +17,12 @@ const addReport = async (req, res, next) => {
       state: req.body.state.toLowerCase().trim(),
       city: req.body.city.toLowerCase().trim(),
       have_electricity: req.body.have_electricity,
+      userIpAddress: "",
       date: "",
     });
 
     newReport.date = stringDate;
+    newReport.userIpAddress = userIp;
 
     await newReport.save();
     res.json({
